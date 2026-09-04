@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07100b">
+<title>Football Analytics Pro</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#050907;color:#e8f0eb;font-family:Arial,sans-serif;font-size:12px}
+.app{width:min(100%,520px);margin:auto;min-height:100vh;background:linear-gradient(#07100b,#050907)}
+header{padding:15px 14px 9px;display:flex;align-items:center;gap:11px;border-bottom:1px solid #1b2a21;position:sticky;top:0;background:#07100bf2;backdrop-filter:blur(10px);z-index:4}
+.logo{width:52px;height:52px;border-radius:50%;border:1px solid #d8b84c55;display:grid;place-items:center;background:#0b140e;overflow:hidden}
+.logo span{font-size:29px;filter:grayscale(1) brightness(2)}
+.brand b{display:block;font-size:14px;letter-spacing:.6px}.brand small{color:#7f8e85;font-size:8px}
+.badge{margin-left:auto;color:#20e86b;border:1px solid #20e86b44;padding:5px 7px;border-radius:99px;font-size:7px;font-weight:900}
+.nav{display:flex;gap:5px;padding:8px 10px;overflow:auto;border-bottom:1px solid #17241c;position:sticky;top:77px;background:#07100bf2;z-index:3}
+.nav button{white-space:nowrap;background:#0a130e;border:1px solid #1d3025;color:#84928a;border-radius:8px;padding:7px 9px;font-size:7px;font-weight:800}.nav button.active{color:#20e86b;border-color:#20e86b66;background:#20e86b0d}
+section{padding:10px 12px}.card{background:#09120d;border:1px solid #23372b;border-radius:14px;padding:10px;margin-bottom:9px}.title{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.title b{font-size:10px}.tag{font-size:6px;color:#20e86b;border:1px solid #20e86b44;padding:4px 6px;border-radius:99px}
+.match{display:grid;grid-template-columns:1fr 65px 1fr;align-items:center;text-align:center}.comp{grid-column:1/4;color:#75837b;font-size:7px;margin-bottom:7px}.team{font-size:10px;font-weight:900}.score{font-size:19px;font-weight:950}.muted{color:#718078;font-size:7px}.green{color:#20e86b}.gold{color:#f4c531}
+.probs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.prob{background:#070e0a;border:1px solid #1b2b22;border-radius:9px;padding:8px;text-align:center}.prob b{font-size:14px;display:block}.prob span{font-size:6px;color:#748178}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px}.metric{background:#070e0a;border:1px solid #1b2b22;border-radius:9px;padding:8px}.metric small{display:block;color:#6f7d75;font-size:6px}.metric b{font-size:12px;display:block;margin-top:4px}
+.factor{padding:7px 0;border-bottom:1px solid #17241c}.factor:last-child{border:0}.frow{display:flex;justify-content:space-between;font-size:7px}.bar{height:4px;background:#17231c;border-radius:99px;margin-top:4px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#20e86b,#f4c531)}
+.player{display:grid;grid-template-columns:28px 1fr 34px;gap:7px;align-items:center;padding:7px;border:1px solid #1b2a21;border-radius:9px;margin-top:6px;background:#070e0a}.avatar{width:27px;height:27px;border-radius:50%;background:#17241c;display:grid;place-items:center;font-size:8px;font-weight:900}.pname{font-size:8px;font-weight:900}.pmeta{font-size:6px;color:#718078;margin-top:2px}.rating{text-align:right;font-size:11px;font-weight:950;color:#20e86b}
+.pitch{height:265px;border:1px solid #31513d;border-radius:12px;background:repeating-linear-gradient(0deg,#0b2a17,#0b2a17 18px,#0d301a 19px),#0b2a17;position:relative;overflow:hidden}.pitch:before{content:"";position:absolute;inset:8px;border:1px solid #79a88766}.mid{position:absolute;left:50%;top:8px;bottom:8px;border-left:1px solid #79a88766}.circle{position:absolute;width:70px;height:70px;border:1px solid #79a88766;border-radius:50%;left:calc(50% - 35px);top:calc(50% - 35px)}.goal{position:absolute;top:43%;width:8px;height:14%;border:1px solid #d9eadc}.goal.l{left:8px}.goal.r{right:8px}.dot{position:absolute;width:18px;height:18px;border-radius:50%;background:#eaf3ed;color:#07100b;display:grid;place-items:center;font-size:5px;font-weight:900;border:2px solid #20e86b}.dot.aw{border-color:#f4c531;background:#f4c531}.p1{left:16%;top:50%}.p2{left:28%;top:31%}.p3{left:28%;top:69%}.p4{left:42%;top:42%}.p5{left:42%;top:60%}.a1{right:16%;top:50%}.a2{right:28%;top:31%}.a3{right:28%;top:69%}.a4{right:42%;top:42%}.a5{right:42%;top:60%}
+.history{padding:8px;border:1px solid #1b2a21;background:#070e0a;border-radius:9px;margin-top:7px}.hrow{display:flex;justify-content:space-between;font-size:7px}.hteams{font-size:8px;font-weight:900;margin:5px 0}.hstats{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.hs{background:#0b150f;border-radius:6px;padding:5px;text-align:center}.hs b{display:block;font-size:8px}.hs small{font-size:5px;color:#68766e}
+button.action{width:100%;padding:10px;border-radius:9px;border:1px solid #20e86b66;background:#20e86b12;color:#20e86b;font-size:8px;font-weight:900}
+footer{padding:12px;text-align:center;color:#536159;font-size:6px}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="logo"><span>🐯</span></div><div class="brand"><b>FOOTBALL ANALYTICS PRO</b><small>ANALISIS PERTANDINGAN</small></div><div class="badge">V3 · GRATIS</div></header>
+<div class="nav">
+<button class="active" onclick="show('analysis',this)">🔮 ANALISIS</button><button onclick="show('players',this)">⭐ PEMAIN</button><button onclick="show('pitch',this)">🗺️ SERANGAN</button><button onclick="show('history',this)">📋 RIWAYAT</button>
+</div>
+
+<main>
+<section id="analysis">
+<div class="card"><div class="title"><b>PILIH PERTANDINGAN</b><span class="tag">DATA DEMO</span></div>
+<select id="match" style="width:100%;padding:9px;border-radius:8px;background:#050b07;color:#e8f0eb;border:1px solid #26392e" onchange="loadMatch()">
+<option value="city">Man City vs Man United</option><option value="arsenal">Arsenal vs Chelsea</option><option value="bayern">Bayern vs Leipzig</option><option value="madrid">Real Madrid vs Barcelona</option></select></div>
+<div class="card"><div class="match"><div class="comp" id="comp">PREMIER LEAGUE · ANALISIS PRA-PERTANDINGAN</div><div class="team" id="home">MAN CITY</div><div><div class="score">VS</div><div class="muted">BELUM MULAI</div></div><div class="team" id="away">MAN UNITED</div></div></div>
+<div class="card"><div class="title"><b>🔮 PREDIKSI ANALIS</b><span class="tag">MODEL PRO</span></div><div class="probs"><div class="prob"><b id="ph">55%</b><span>HOME MENANG</span></div><div class="prob"><b id="pd">24%</b><span>SERI</span></div><div class="prob"><b id="pa">21%</b><span>AWAY MENANG</span></div></div>
+<div class="grid2" style="margin-top:7px"><div class="metric"><small>PREDIKSI SKOR</small><b id="ps">2 – 1</b></div><div class="metric"><small>KEYAKINAN MODEL</small><b id="cf">82%</b></div><div class="metric"><small>PELUANG GOL HOME</small><b id="gh">1,82</b></div><div class="metric"><small>PELUANG GOL AWAY</small><b id="ga">1,04</b></div><div class="metric"><small>OVER 2,5 GOL</small><b id="ov">61%</b></div><div class="metric"><small>KEDUA TIM CETAK GOL</small><b id="bt">58%</b></div></div>
+<p id="summary" class="muted" style="line-height:1.5;margin:9px 0 0">Keunggulan terlihat dari performa serangan dan kandang. Hasil tetap berupa probabilitas, bukan kepastian.</p>
+<button class="action" onclick="toggleBasis()">🔎 LIHAT DASAR ANALISIS</button><div id="basis" style="display:none;margin-top:8px"></div></div>
+<div class="card"><div class="title"><b>🧠 MESIN ANALISIS V2</b><span class="tag">TRANSPARAN</span></div><div id="factors"></div></div>
+</section>
+
+<section id="players" style="display:none"><div class="card"><div class="title"><b>⭐ NILAI PERFORMA PEMAIN</b><span class="tag">0–10</span></div><div id="playersList"></div><p class="muted" style="line-height:1.5">Nilai adalah model Football Analytics Pro. Bukan rating resmi dari WhoScored atau penyedia lain.</p></div></section>
+
+<section id="pitch" style="display:none"><div class="card"><div class="title"><b>🗺️ PETA SERANGAN</b><span class="tag">HOME ← → AWAY</span></div><div class="pitch"><div class="mid"></div><div class="circle"></div><div class="goal l"></div><div class="goal r"></div><div class="dot p1">H1</div><div class="dot p2">H2</div><div class="dot p3">H3</div><div class="dot p4">H4</div><div class="dot p5">H5</div><div class="dot aw a1">A1</div><div class="dot aw a2">A2</div><div class="dot aw a3">A3</div><div class="dot aw a4">A4</div><div class="dot aw a5">A5</div></div><div class="muted" style="margin-top:7px">Home berada di kiri dan Away di kanan. Peta ini adalah visualisasi model, bukan tracking pemain langsung.</div></div></section>
+
+<section id="history" style="display:none"><div class="card"><div class="title"><b>📋 RIWAYAT PENGUJIAN</b><button onclick="clearHistory()" style="background:none;border:0;color:#ff776f;font-size:7px">HAPUS</button></div><div id="historyList"></div><p class="muted">Prediksi disimpan di browser perangkat ini. Setelah pertandingan selesai, hasil aktual dapat dicatat untuk mengukur akurasi model.</p></div></section>
+</main>
+<footer>Football Analytics Pro · Demo V3 · Tidak menggunakan Opta, WhoScored, Sportmonks, The Analyst, atau Understat.</footer>
+</div>
+<script>
+const data={
+city:{c:'PREMIER LEAGUE',h:'MAN CITY',a:'MAN UNITED',p:[55,24,21],s:'2 – 1',cf:'82%',gh:'1,82',ga:'1,04',o:'61%',b:'58%',sum:'Keunggulan terlihat dari performa serangan dan kandang.',f:[78,84,73,82,80,61,76],names:['E. Haaland','K. De Bruyne','Rodri','J. Gvardiol','B. Fernandes','M. Rashford'],ratings:[8.7,8.2,7.9,7.2,8.1,7.6]},
+arsenal:{c:'PREMIER LEAGUE',h:'ARSENAL',a:'CHELSEA',p:[51,27,22],s:'2 – 1',cf:'78%',gh:'1,67',ga:'1,12',o:'57%',b:'55%',sum:'Arsenal unggul dalam kontrol permainan; Chelsea berbahaya saat transisi.',f:[75,79,76,78,77,65,74],names:['B. Saka','M. Ødegaard','Declan Rice','W. Saliba','C. Palmer','N. Jackson'],ratings:[8.5,8.1,7.9,7.6,8.2,7.5]},
+bayern:{c:'BUNDESLIGA',h:'BAYERN',a:'LEIPZIG',p:[59,22,19],s:'3 – 1',cf:'84%',gh:'2,14',ga:'1,02',o:'68%',b:'62%',sum:'Bayern mempunyai volume serangan lebih tinggi dan peluang gol lebih besar.',f:[86,91,72,84,88,69,81],names:['H. Kane','J. Musiala','M. Olise','J. Kimmich','L. Openda','X. Simons'],ratings:[9.0,8.6,8.2,8.0,7.9,7.8]},
+madrid:{c:'LA LIGA',h:'REAL MADRID',a:'BARCELONA',p:[43,25,32],s:'2 – 2',cf:'76%',gh:'1,71',ga:'1,58',o:'72%',b:'69%',sum:'Pertandingan cenderung seimbang dengan potensi gol dari kedua sisi.',f:[79,83,70,76,82,73,78],names:['V. Jr','J. Bellingham','K. Mbappé','Pedri','L. Yamal','R. Lewandowski'],ratings:[8.8,8.7,8.5,8.2,8.4,8.3]}
+};
+function current(){return data[document.getElementById('match').value]}
+function loadMatch(){let d=current();home.textContent=d.h;away.textContent=d.a;comp.textContent=d.c+' · ANALISIS PRA-PERTANDINGAN';ph.textContent=d.p[0]+'%';pd.textContent=d.p[1]+'%';pa.textContent=d.p[2]+'%';ps.textContent=d.s;cf.textContent=d.cf;gh.textContent=d.gh;ga.textContent=d.ga;ov.textContent=d.o;bt.textContent=d.b;summary.textContent=d.sum;renderFactors(d);renderPlayers(d)}
+function renderFactors(d){let labels=['PERFORMA TERKINI','KEKUATAN SERANGAN','PERTAHANAN','KANDANG / TANDANG','PERFORMA PEMAIN','REKOR PERTEMUAN','KESEIMBANGAN MODEL'];factors.innerHTML=labels.map((x,i)=>`<div class="factor"><div class="frow"><span>${x}</span><b>${d.f[i]}</b></div><div class="bar"><i style="width:${d.f[i]}%"></i></div></div>`).join('')}
+function renderPlayers(d){playersList.innerHTML=d.names.map((n,i)=>`<div class="player"><div class="avatar">${i+1}</div><div><div class="pname">${n}</div><div class="pmeta">${i<4?d.h:d.a} · kontribusi model</div></div><div class="rating">${d.ratings[i].toFixed(1)}</div></div>`).join('')}
+function toggleBasis(){basis.style.display=basis.style.display==='none'?'block':'none';let d=current();basis.innerHTML=`<div class="muted" style="line-height:1.6">Peluang hasil dibentuk dari gabungan faktor berbobot. Model saat ini memakai: performa 20%, serangan 20%, pertahanan 15%, kandang/tandang 15%, pemain 15%, pertemuan 5%, keseimbangan 10%. Angka pada demo masih data contoh dan belum berasal dari pertandingan online.</div>`}
+function show(id,btn){document.querySelectorAll('main>section').forEach(s=>s.style.display='none');document.getElementById(id).style.display='block';document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(id==='history')renderHistory()}
+function saveHistory(){let d=current(),arr=JSON.parse(localStorage.getItem('fap_history')||'[]');arr.unshift({date:new Date().toLocaleDateString('id-ID'),h:d.h,a:d.a,s:d.s,p:d.p[0],o:d.o,b:d.b});localStorage.setItem('fap_history',JSON.stringify(arr.slice(0,30)));renderHistory()}
+function renderHistory(){let arr=JSON.parse(localStorage.getItem('fap_history')||'[]');historyList.innerHTML=arr.length?arr.map(x=>`<div class="history"><div class="hrow"><span>${x.date}</span><span class="gold">MENUNGGU HASIL</span></div><div class="hteams">${x.h} vs ${x.a}</div><div class="hstats"><div class="hs"><b>${x.s}</b><small>SKOR</small></div><div class="hs"><b>${x.p}%</b><small>HOME</small></div><div class="hs"><b>${x.o}</b><small>OVER 2,5</small></div></div></div>`).join(''):'<div class="muted" style="text-align:center;padding:15px">Belum ada pengujian.</div>'}
+function clearHistory(){localStorage.removeItem('fap_history');renderHistory()}
+loadMatch();renderHistory();
+</script>
+</body></html>
